@@ -1,0 +1,30 @@
+name: Vigilante BOE Diario
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+
+      - name: Ejecutar script de vigilancia
+        env:
+          EMAIL_ORIGEN: ${{ secrets.EMAIL_ORIGEN }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          TEXTO_BUSQUEDA: ${{ secrets.TEXTO_BUSQUEDA }}
+          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }} 
+        run: python Vigilante.py
