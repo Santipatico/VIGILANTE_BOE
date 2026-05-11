@@ -27,7 +27,7 @@ El robot necesita una **Contraseña de Aplicación** (código de 16 letras) para
 Haz clic en el botón **"Fork"** arriba a la derecha en este repositorio para tener tu propia copia funcional.
 
 ### 3. Configurar tus Secretos
-En tu repositorio, ve a **Settings** > **Secrets and variables** > **Actions** y añade estos 4 secretos:
+En tu repositorio, ve a **Settings** > **Secrets and variables** > **Actions** y añade estos secretos:
 
 | Secreto | Descripción | Ejemplo |
 | :--- | :--- | :--- |
@@ -35,6 +35,18 @@ En tu repositorio, ve a **Settings** > **Secrets and variables** > **Actions** y
 | `EMAIL_PASSWORD` | El código de 16 letras de la App. | `abcd efgh ijkl mnop` |
 | `EMAIL_DESTINO` | Correo donde recibirás la alerta. | `avisos@correo.com` |
 | `TEXTO_BUSQUEDA` | Tu DNI, Matrícula o Nombre. | `"JUAN PEREZ" .O 12345678X` |
+| `FECHA_DESDE` | Opcional. Fecha mínima de publicación para evitar avisos repetidos de notificaciones antiguas. | `26/04/2026` |
+| `FECHA_HASTA` | Opcional. Fecha máxima de publicación si quieres acotar un periodo cerrado. | `30/04/2026` |
+
+---
+
+## 📅 Acotar la búsqueda por fecha
+
+Si el BOE ya ha publicado una notificación y no quieres recibir la misma alerta todos los días, añade el secreto opcional `FECHA_DESDE` en **Settings** > **Secrets and variables** > **Actions**.
+
+Para buscar solo publicaciones posteriores a una notificación ya detectada, usa el día siguiente como `FECHA_DESDE`. Por ejemplo, si la notificación salió el `25/04/2026`, configura `FECHA_DESDE` como `26/04/2026`.
+
+El formato recomendado es `DD/MM/AAAA`, aunque el script también acepta `AAAA-MM-DD`. Si necesitas revisar un intervalo concreto, también puedes añadir `FECHA_HASTA`.
 
 ---
 

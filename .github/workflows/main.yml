@@ -1,30 +1,32 @@
-name: Vigilante BOE Diario
+name: Vigilante BOE
 
 on:
   schedule:
+    # 08:00 UTC corresponde aproximadamente a las 09:00 AM en España peninsular durante horario de invierno.
     - cron: '0 8 * * *'
   workflow_dispatch:
 
 jobs:
-  build:
+  vigilancia:
     runs-on: ubuntu-latest
     steps:
-      - name: Descargar código
-        uses: actions/checkout@v3
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/setup-python@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.x'
 
       - name: Instalar dependencias
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Ejecutar script de vigilancia
+      - name: Ejecutar vigilante BOE
         env:
           EMAIL_ORIGEN: ${{ secrets.EMAIL_ORIGEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }}
           TEXTO_BUSQUEDA: ${{ secrets.TEXTO_BUSQUEDA }}
-          EMAIL_DESTINO: ${{ secrets.EMAIL_DESTINO }} 
+          FECHA_DESDE: ${{ secrets.FECHA_DESDE }}
+          FECHA_HASTA: ${{ secrets.FECHA_HASTA }}
         run: python Vigilante.py
